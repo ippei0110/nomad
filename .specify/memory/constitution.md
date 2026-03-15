@@ -1,50 +1,145 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+  SYNC IMPACT REPORT
+  ==================
+  バージョン変更: 1.1.0 → 1.1.1
+  変更種別: PATCH（全文日本語化 + 表現の実践的調整。原則・内容の変更なし）
+  変更原則: なし（内容は維持、言語のみ変更）
+  追加セクション: なし
+  削除セクション: なし
+  テンプレート確認:
+    - .specify/templates/plan-template.md        ✅ 整合済み
+    - .specify/templates/spec-template.md        ✅ 整合済み
+    - .specify/templates/tasks-template.md       ✅ 整合済み
+    - .specify/templates/agent-file-template.md  ✅ 変更なし
+    - .specify/templates/checklist-template.md   ✅ 確認済み
+  未解決TODO:
+    - TODO(TEST_FRAMEWORK): E2Eテストの方針（Maestro or Detox）は最初のfeature計画時に確定する。
+    - TODO(PACKAGE_MANAGER): Expoプロジェクト初期化時にnpm or pnpmを確定する。
+-->
 
-## Core Principles
+# Nomad コンスティテューション
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+Nomad は、近くの Wi-Fi 付き作業スペースを探すモバイルファーストなアプリです。
+このコンスティテューションは **個人開発の MVP** に最適化されています。
+ルールは最小限に保ち、実装の勢いを優先します。
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+## コア原則
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### I. 仕様先行（Specification-First）
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+すべての機能は、実装を始める前に `spec.md` として仕様を書くことを **必須** とします。
+仕様には、少なくとも 1 つのユーザーストーリーと受け入れ条件が含まれていなければなりません。
+網羅的である必要はなく、「何を作るかが迷わず判断できる」レベルで十分です。
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+**理由**: 短い仕様を書く時間は、作り直しの時間よりはるかに短い。
+個人開発であっても、意図を言語化することで前提のズレを防げる。
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+### II. 実践的テスト（Pragmatic Testing）
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+テストは必要ですが、ひとりで作る初期 MVP に見合った規模に留めます。
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+必須とするもの:
+- 検索フィルタ・位置情報ランキング・データ変換などの **重要ビジネスロジックはユニットテストを書く**。
+- 各ユーザーストーリーの主要ハッピーパスは **コンポーネントテストまたは統合テストを書くことが望ましい**。
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+省略してよいもの:
+- ボイラープレートな画面、単純なラッパー、UI レイアウトの細部。
 
-## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+厳格な TDD（書いて失敗させてから実装）は推奨しますが、
+UI コンポーネントについては実装と並行または直後にテストを書くことを許容します。
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+**理由**: 重いテスト手続きは MVP の速度を下げる。
+黙って壊れやすいロジックをテストし、目で確認できる UI の細部はスキップする。
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+### III. 小さく独立した実装（Incremental & Independent Delivery）
+
+機能は、独立して完成・確認できる小さなタスクに分解することを **必須** とします。
+1 タスク = 1 つの関心事（1 画面・1 API 呼び出し・1 データモデル）を目安にします。
+完成済みのストーリーを、未完成のストーリーが壊してはなりません。
+
+**理由**: タスクが小さいほど集中しやすく、途中で止めても再開しやすい。
+完璧なアーキテクチャより、今日動く 1 画面のほうが価値が高い。
+
+### IV. シンプルさ優先（Simplicity / YAGNI）
+
+現在の仕様を満たす最もシンプルな実装を **必ず選びます**。
+抽象化や追加レイヤーには `plan.md` での明示的な理由付けが必要です。
+
+MVP では以下を基本方針とします:
+- フラットなコンポーネント構造を好む。
+- 複雑な状態管理より、ローカルステートを優先する。
+- 必要が証明されるまで、API 呼び出しへの抽象レイヤーを挟まない。
+- Expo / React Native の組み込み機能を、サードパーティライブラリより優先する。
+
+**理由**: 複雑さは永続する。MVP で入れた早すぎる抽象化は、以降のすべての判断を縛る。
+今日のために作り、本当に痛みが出たときにリファクタリングする。
+
+### V. UI 一貫性（Material Design 3 準拠）
+
+ユーザーに見えるすべての画面・コンポーネントは **Material Design 3 (MD3)** に従います。
+
+具体的なルール:
+- UI コンポーネントのライブラリとして `react-native-paper` v5 以上を使い、
+  ライブラリが提供するコンポーネントを独自実装で置き換えない。
+- 色・タイポグラフィ・スペーシング・エレベーションは MD3 トークンを使い、
+  デザイン値をハードコードしない。
+- ナビゲーション（ボトムタブ・モーダル・戻る操作）は、
+  Expo Router または React Navigation による MD3 準拠パターンに従う。
+
+**理由**: MD3 は完結したデザインシステムであり、アクセシビリティと一貫性を保証する。
+発見系アプリにおける信頼感は、UIの統一感から生まれる。
+
+## 技術スタック
+
+| 項目 | 採用技術 |
+|------|----------|
+| 言語 | TypeScript（strict モード） |
+| フレームワーク | React Native + Expo（SDK managed） |
+| UI ライブラリ | react-native-paper v5+（MD3） |
+| ナビゲーション | Expo Router（ファイルベースルーティング） |
+| テスト | Jest + React Native Testing Library（TODO: E2E は Maestro または Detox で要確定） |
+| Lint / Format | ESLint + Prettier（Expo デフォルト設定をベースライン） |
+| パッケージ管理 | TODO: npm（Expo デフォルト）または pnpm で要確定 |
+| 対象プラットフォーム | iOS / Android（開発: Expo Go、配布: EAS Build） |
+| 最低 OS バージョン | iOS 16+ / Android 10+（Expo SDK 推奨に準拠） |
+
+各 `plan.md` の「Technical Context」セクションで、必要に応じてこれらの値を確認または上書きします。
+
+## 開発ワークフロー
+
+機能ごとに以下の順序を守ります:
+
+1. **仕様作成** — `/speckit.specify` を実行して `specs/[###-feature]/spec.md` を作成する。
+2. **明確化**（任意）— 受け入れ条件に曖昧さがある場合は `/speckit.clarify` を実行する。
+3. **設計** — `/speckit.plan` を実行して `plan.md` と関連する設計成果物を作成する。
+4. **タスク生成** — `/speckit.tasks` を実行して依存順に並んだ `tasks.md` を作成する。
+5. **実装** — `/speckit.implement` またはタスクを手動で進め、原則 II〜IV に従う。
+6. **動作確認** — 実機またはシミュレーターで主要ユーザーフローを手動確認してから完了とする。
+
+小規模・明確な機能では、明確化・分析ステップは省略可能です。
+
+ブランチ命名規則: `###-feature-name`（例: `001-workspace-search`）
+
+コミットは 1 タスク = 1 コミットを目安にします（厳守ではなく指針）。
+
+## ガバナンス
+
+このコンスティテューションがプロジェクト上のすべての慣習より優先されます。
+迷ったときはここを参照し、無視するのではなく改定してください。
+
+**改定手順**（個人開発向け）:
+1. このファイルを直接編集し、下記ポリシーに従ってバージョンを上げる。
+2. Sync Impact Report に変更理由を簡潔に記載する。
+3. `/speckit.constitution` を実行して関連テンプレートへ反映する。
+
+**バージョン管理ポリシー**（セマンティックバージョニング）:
+- **MAJOR**: 原則の削除・根本的な再定義、またはワークフローの後方互換性のない変更。
+- **MINOR**: 新しい原則・セクションの追加、または既存原則の内容的な改訂。
+- **PATCH**: 表現の明確化・誤字修正・意味を変えない整形。
+
+**コンスティテューションチェック**: 機能を始める前に関連原則を読み直してください。
+個人開発なので、PR ゲートは不要です。自己レビューで十分です。
+
+---
+
+**バージョン**: 1.1.1 | **批准日**: 2026-03-15 | **最終改定**: 2026-03-15

@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "Nomad",
+    "slug": "nomad",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "nomad",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.nomad.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "現在地周辺の Wi-Fi 付き作業スペースを検索するために使用します。"
+      }
+    },
+    "android": {
+      "package": "com.nomad.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#ffffff"
+      },
+      "permissions": [
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION"
+      ]
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "現在地周辺の Wi-Fi 付き作業スペースを検索するために使用します。"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
