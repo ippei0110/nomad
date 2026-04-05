@@ -22,7 +22,7 @@ export function useVenues(
       .getAllVenues()
       .reduce<VenueWithDistance[]>((acc, venue) => {
         const chain = venueService.getChainById(venue.chainId);
-        if (!chain) return acc;
+        if (!chain || !chain.hasWifi) return acc;
 
         const distanceMeters = calcDistanceMeters(location, venue.location);
         if (distanceMeters > radiusMeters) return acc;

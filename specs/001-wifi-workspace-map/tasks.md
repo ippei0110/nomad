@@ -75,10 +75,10 @@ description: "Task list for Wi-Fi 付き作業スペース マップ検索"
 
 ### Implementation for User Story 2
 
-- [ ] T018 [US2] `src/components/VenueList.tsx` を実装する（`FlatList` で `venues` を表示。各行に店名・`${distanceMeters}m`・最安商品名・`¥${priceYen}` を react-native-paper の `List.Item` で表示、行タップで `onVenuePress`、空配列時に `<EmptyState type="no_venues" />` を表示）
-- [ ] T019 [P] [US2] `__tests__/components/VenueList.test.tsx` に VenueList のコンポーネントテストを実装する（店舗リストが正しくレンダリングされる・距離が m 単位で表示される・空配列で EmptyState が表示される・行タップで onVenuePress が呼ばれる）
-- [ ] T020 [US2] `src/components/ViewModeToggle.tsx` を実装する（react-native-paper の `SegmentedButtons` を使い、`mode` が `'map'` / `'list'` のどちらかをアクティブ状態で表示、タップで `onChange` を呼び出す）
-- [ ] T021 [US2] `app/index.tsx` に `viewMode` state（初期値 `'map'`）を追加し、`<ViewModeToggle>` を画面上部に配置、`viewMode === 'list'` のとき `<VenueList>` を表示、`viewMode === 'map'` のとき `<VenueMapView>` を表示するよう更新する
+- [x] T018 [US2] `src/components/VenueList.tsx` を実装する（`FlatList` で `venues` を表示。各行に店名・`${distanceMeters}m`・最安商品名・`¥${priceYen}` を react-native-paper の `List.Item` で表示、行タップで `onVenuePress`、空配列時に `<EmptyState type="no_venues" />` を表示）
+- [x] T019 [P] [US2] `__tests__/components/VenueList.test.tsx` に VenueList のコンポーネントテストを実装する（店舗リストが正しくレンダリングされる・距離が m 単位で表示される・空配列で EmptyState が表示される・行タップで onVenuePress が呼ばれる）
+- [x] T020 [US2] `src/components/ViewModeToggle.tsx` を実装する（react-native-paper の `SegmentedButtons` を使い、`mode` が `'map'` / `'list'` のどちらかをアクティブ状態で表示、タップで `onChange` を呼び出す）
+- [x] T021 [US2] `app/index.tsx` に `viewMode` state（初期値 `'map'`）を追加し、`<ViewModeToggle>` を画面上部に配置、`viewMode === 'list'` のとき `<VenueList>` を表示、`viewMode === 'map'` のとき `<VenueMapView>` を表示するよう更新する
 
 **Checkpoint**: この時点で US1（地図）と US2（一覧）が独立して動作する状態
 
@@ -92,8 +92,8 @@ description: "Task list for Wi-Fi 付き作業スペース マップ検索"
 
 ### Implementation for User Story 3
 
-- [ ] T022 [US3] `src/components/VenueBottomSheet.tsx` を実装する（`@gorhom/bottom-sheet` の `BottomSheet` コンポーネントを使用。`venue` が非 `null` のとき snapPoint 40% で開く・閉じたとき `onClose` を呼び出す。コンテンツ: ブランド名+店舗名・Wi-Fi 有無を `Chip`（「Wi-Fi あり」緑 / 「Wi-Fi なし」グレー）・最安商品名と `¥${priceYen}`（未設定時は「価格情報なし」）・住所を react-native-paper で表示）
-- [ ] T023 [US3] `app/index.tsx` に `selectedVenue` state（初期値 `null`）を追加し、`<VenueBottomSheet venue={selectedVenue} onClose={() => setSelectedVenue(null)} />` を追加、`VenueMapView` と `VenueList` の `onVenuePress` ハンドラで `setSelectedVenue(venue)` を呼び出すよう更新する
+- [x] T022 [US3] `src/components/VenueBottomSheet.tsx` を実装する（`@gorhom/bottom-sheet` の `BottomSheet` コンポーネントを使用。`venue` が非 `null` のとき snapPoint 40% で開く・閉じたとき `onClose` を呼び出す。コンテンツ: ブランド名+店舗名・Wi-Fi 有無を `Chip`（「Wi-Fi あり」緑 / 「Wi-Fi なし」グレー）・最安商品名と `¥${priceYen}`（未設定時は「価格情報なし」）・住所を react-native-paper で表示）
+- [x] T023 [US3] `app/index.tsx` に `selectedVenue` state（初期値 `null`）を追加し、`<VenueBottomSheet venue={selectedVenue} onClose={() => setSelectedVenue(null)} />` を追加、`VenueMapView` と `VenueList` の `onVenuePress` ハンドラで `setSelectedVenue(venue)` を呼び出すよう更新する
 
 **Checkpoint**: 全ユーザーストーリー（地図・一覧・ボトムシート）が独立して機能する状態
 
@@ -103,9 +103,9 @@ description: "Task list for Wi-Fi 付き作業スペース マップ検索"
 
 **目的**: 仕上げ・横断的な品質確認
 
-- [ ] T024 [P] `quickstart.md` の動作確認チェックリストに従い、iOS シミュレーターで US1〜US3 の全受け入れシナリオを手動確認する
-- [ ] T025 [P] `npm test` を実行してテストが全件パスすることを確認する（distance.test.ts・useVenues.test.ts・VenueList.test.tsx）
-- [ ] T026 [P] `npm run lint` を実行してエラーがないことを確認し、残存する警告を修正する
+- [x] T024 [P] `quickstart.md` の動作確認チェックリストに従い、iOS シミュレーターで US1〜US3 の全受け入れシナリオを手動確認する
+- [x] T025 [P] `npm test` を実行してテストが全件パスすることを確認する（distance.test.ts・useVenues.test.ts・VenueList.test.tsx）
+- [x] T026 [P] `npm run lint` を実行してエラーがないことを確認し、残存する警告を修正する
 
 ---
 

@@ -4,7 +4,10 @@ import { ActivityIndicator, Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { EmptyState } from '@/components/EmptyState';
+import { VenueBottomSheet } from '@/components/VenueBottomSheet';
+import { VenueList } from '@/components/VenueList';
 import { VenueMapView } from '@/components/VenueMapView';
+import { ViewModeToggle } from '@/components/ViewModeToggle';
 import { useLocation } from '@/hooks/useLocation';
 import { useVenues } from '@/hooks/useVenues';
 import { VenueWithDistance, ViewMode } from '@/types/venue';
@@ -13,10 +16,8 @@ export default function MapScreen() {
   const { location, error: locationError, isLoading } = useLocation();
   const venues = useVenues(location);
 
-  // TODO(US2): ViewModeToggle と VenueList を追加するときに使用する
-  const [viewMode] = useState<ViewMode>('map');
-  // TODO(US3): VenueBottomSheet を追加するときに使用する
-  const [, setSelectedVenue] = useState<VenueWithDistance | null>(null);
+  const [viewMode, setViewMode] = useState<ViewMode>('map');
+  const [selectedVenue, setSelectedVenue] = useState<VenueWithDistance | null>(null);
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -29,7 +30,7 @@ export default function MapScreen() {
         </Text>
       </View>
 
-      {/* TODO(US2): ViewModeToggle をここに追加 */}
+      <ViewModeToggle mode={viewMode} onChange={setViewMode} />
 
       <View style={styles.content}>
         {isLoading && (
@@ -48,17 +49,15 @@ export default function MapScreen() {
         )}
 
         {!isLoading && !locationError && location && venues.length > 0 && viewMode === 'map' && (
-          <VenueMapView
-            userLocation={location}
-            venues={venues}
-            onVenuePress={setSelectedVenue}
-          />
+          <VenueMapView userLocation={location} venues={venues} onVenuePress={setSelectedVenue} />
         )}
 
-        {/* TODO(US2): viewMode === 'list' のとき VenueList */}
+        {!isLoading && !locationError && viewMode === 'list' && (
+          <VenueList venues={venues} onVenuePress={setSelectedVenue} />
+        )}
       </View>
 
-      {/* TODO(US3): VenueBottomSheet をここに追加 */}
+      <VenueBottomSheet venue={selectedVenue} onClose={() => setSelectedVenue(null)} />
     </SafeAreaView>
   );
 }

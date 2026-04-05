@@ -8,7 +8,7 @@ describe('calcDistanceMeters', () => {
 
   it('新宿〜渋谷間の距離が 3〜5km の範囲に収まる', () => {
     const shinjuku = { latitude: 35.6895, longitude: 139.6917 };
-    const shibuya = { latitude: 35.6580, longitude: 139.7016 };
+    const shibuya = { latitude: 35.658, longitude: 139.7016 };
     const dist = calcDistanceMeters(shinjuku, shibuya);
     expect(dist).toBeGreaterThan(3000);
     expect(dist).toBeLessThan(5000);

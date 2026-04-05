@@ -22,7 +22,7 @@ jest.mock('../../src/services/venueService', () => ({
         chainId: 'doutor',
         name: '遠い店舗（約 4.4km）',
         address: '東京都渋谷区テスト2-2',
-        location: { latitude: 35.6500, longitude: 139.6917 }, // ~4.4km
+        location: { latitude: 35.65, longitude: 139.6917 }, // ~4.4km
       },
       {
         id: 'venue-mid',
@@ -74,7 +74,22 @@ describe('useVenues', () => {
     expect(result.current[0].chain.hasWifi).toBe(true);
   });
 
+  it('hasWifi が false のチェーンの店舗は除外される', () => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { venueService } = require('../../src/services/venueService');
+    venueService.getChainById.mockReturnValueOnce({
+      id: 'no-wifi-chain',
+      name: 'Wi-Fiなし店',
+      hasWifi: false,
+      cheapestItem: { name: 'コーヒー', priceYen: 300 },
+    });
+    const { result } = renderHook(() => useVenues(ORIGIN));
+    // venue-near の chain が hasWifi: false → 除外される
+    expect(result.current.every((v) => v.chain.hasWifi)).toBe(true);
+  });
+
   it('chainId に対応する chain が見つからない店舗は除外される', () => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const { venueService } = require('../../src/services/venueService');
     venueService.getChainById.mockReturnValueOnce(undefined);
     const { result } = renderHook(() => useVenues(ORIGIN));

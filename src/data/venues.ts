@@ -98,7 +98,7 @@ export const VENUES: Venue[] = [
     chainId: 'komeda',
     name: 'コメダ珈琲店 渋谷店',
     address: '東京都渋谷区宇田川町20-11',
-    location: { latitude: 35.6620, longitude: 139.6986 },
+    location: { latitude: 35.662, longitude: 139.6986 },
   },
   {
     id: 'komeda-ikebukuro-001',
@@ -121,7 +121,7 @@ export const VENUES: Venue[] = [
     chainId: 'mcdonalds',
     name: 'マクドナルド 渋谷マークシティ店',
     address: '東京都渋谷区道玄坂1-12-1',
-    location: { latitude: 35.6580, longitude: 139.6976 },
+    location: { latitude: 35.658, longitude: 139.6976 },
   },
   {
     id: 'mcdonalds-akihabara-001',
@@ -135,6 +135,6 @@ export const VENUES: Venue[] = [
     chainId: 'mcdonalds',
     name: 'マクドナルド 上野広小路店',
     address: '東京都台東区上野3-19-6',
-    location: { latitude: 35.7090, longitude: 139.7745 },
+    location: { latitude: 35.709, longitude: 139.7745 },
   },
 ];

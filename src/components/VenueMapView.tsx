@@ -30,11 +30,7 @@ export function VenueMapView({ userLocation, venues, onVenuePress }: VenueMapVie
       showsMyLocationButton
     >
       {venues.map((venue) => (
-        <Marker
-          key={venue.id}
-          coordinate={venue.location}
-          onPress={() => onVenuePress(venue)}
-        >
+        <Marker key={venue.id} coordinate={venue.location} onPress={() => onVenuePress(venue)}>
           <Callout onPress={() => onVenuePress(venue)}>
             <View style={styles.callout}>
               <Text variant="labelMedium" style={styles.calloutChain}>
